@@ -28,7 +28,7 @@ services:
     volumes:
       - ./docker-volumes/postgres_admin:/var/lib/pgadmin
     ports:
-      - 80:80/tcp
+      - 80:80/http
       - 443:443/tcp
     restart: unless-stopped    
   TaskTracker:
