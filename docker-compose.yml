@@ -15,6 +15,7 @@ services:
     ports:
       - 5432:5432/tcp
     restart: unless-stopped
+  
   pgAdmin:
     container_name: DataBaseAdmin
     networks:
@@ -31,6 +32,7 @@ services:
       - 80:80/tcp
       - 443:443/tcp
     restart: unless-stopped    
+  
   TaskTracker:
     container_name: TaskTrackerApp
     networks:
