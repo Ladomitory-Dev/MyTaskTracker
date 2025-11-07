@@ -1,0 +1,48 @@
+networks:
+  MyTaskTracker:
+    driver: bridge
+
+services:
+  DB:
+    container_name: TaskTrackerDB
+    networks:
+      - MyTaskTracker
+    image: postgres:18.0
+    environment:
+      POSTGRES_PASSWORD: ASDzxc123
+    volumes:
+      - ./docker-volumes/postgres_db:/var/lib/postgresql
+    ports:
+      - 5432:5432/tcp
+    restart: unless-stopped
+  pgAdmin:
+    container_name: DataBaseAdmin
+    networks:
+      - MyTaskTracker
+    depends_on:
+      - DB
+    image: dpage/pgadmin4:9.9.0
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ladomitorydev@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: ASDzxc123
+    volumes:
+      - ./docker-volumes/postgres_admin:/var/lib/pgadmin
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+    restart: unless-stopped    
+  TaskTracker:
+    container_name: TaskTrackerApp
+    networks:
+      - MyTaskTracker
+    depends_on:
+      - DB
+    image: ladomitorydev/tasktracker:0.0.1
+    ports:
+      - 8080:8080/tcp
+    restart: always
+# Build and start: docker-compose -f 'docker-compose.yml' up -d --build
+# Delete: docker-compose down
+# Start: docker-compose start -d
+# Stop: docker-copmose stop
+# DB: docker exec -it TaskTrackeDB psql -U postgres 
